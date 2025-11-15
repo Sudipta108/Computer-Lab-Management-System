@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Simple Computer Management System</title>
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --accent: #3b82f6;
+            --muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --radius: 10px;
+            --glass: rgba(255, 255, 255, 0.6);
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, var(--bg), #eef3fb);
+            color: #111;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 18px 28px;
+            background: transparent;
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--accent);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-weight: 700
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 18px auto;
+            padding: 18px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px
+        }
+
+        /* Left card - form */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06)
+        }
+
+        .card h2 {
+            margin: 0 0 12px 0;
+            font-size: 16px
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #e6eef9;
+            font-size: 14px
+        }
+
+        input::placeholder {
+            color: #aab6d3
+        }
+
+        .form-row {
+            margin-bottom: 10px
+        }
+
+        .small {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .btn {
+            cursor: pointer;
+            border: none
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid #e6eef9
+        }
+
+        /* Right - table */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px
+        }
+
+        .search {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .search input {
+            width: 220px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: transparent
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #f1f6fb;
+            font-size: 14px
+        }
+
+        th {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        tr:hover td {
+            background: linear-gradient(90deg, #ffffff, #fbfdff)
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            color: white
+        }
+
+        .tag-win {
+            background: #111827
+        }
+
+        .tag-linux {
+            background: #10b981
+        }
+
+        .tag-mac {
+            background: #6b7280
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 6px
+        }
+
+        .icon-btn {
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid #eef5ff;
+            background: transparent;
+            cursor: pointer
+        }
+
+        /* Responsive */
+        @media (max-width:860px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search input {
+                width: 140px
+            }
+        }
+
+        /* Empty state */
+        .empty {
+            padding: 26px;
+            text-align: center;
+            color: var(--muted)
+        }
+
+        /* footer */
+        footer {
+            max-width: 1100px;
+            margin: 12px auto;
+            color: var(--muted);
+            font-size: 13px;
+            padding: 6px 18px
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="brand">
+            <div class="logo">CMS</div>
+            <div>
+                <h1>Simple Computer Management</h1>
+                <div class="subtitle">Manage basic inventory — add, search, and remove computers</div>
+            </div>
+        </div>
+        <div class="subtitle">Built with HTML &amp; CSS (plus tiny JS for demo)</div>
+    </header>
+
+    <main class="container">
+        <div class="grid">
+            <aside class="card" aria-label="Add computer">
+                <h2>Add new computer</h2>
+                <div class="form-row">
+                    <label for="name">Device Name</label>
+                    <input id="name" placeholder="e.g. Lab-PC-01" />
+                </div>
+                <div class="form-row">
+                    <label for="ip">IP Address</label>
+                    <input id="ip" placeholder="e.g. 192.168.0.15" />
+                </div>
+                <div class="form-row">
+                    <label for="os">Operating System</label>
+                    <select id="os">
+                        <option value="Windows">Windows</option>
+                        <option value="Linux">Linux</option>
+                        <option value="macOS">macOS</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="location">Location / Lab</label>
+                    <input id="location" placeholder="e.g. CSE Lab 2" />
+                </div>
+                <div class="actions">
+                    <button id="addBtn" class="btn btn-primary">Add Computer</button>
+                    <button id="clearBtn" class="btn btn-ghost">Clear</button>
+                </div>
+
+                <hr style="margin:14px 0;border:none;border-top:1px solid #f1f6fb" />
+                <div style="font-size:13px;color:var(--muted)">Tip: This demo stores data in your browser so it's not
+                    shared anywhere.</div>
+            </aside>
+
+            <section>
+                <div class="card">
+                    <div class="toolbar">
+                        <div class="search">
+                            <input id="search" placeholder="Search by name, IP, location..." />
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <div class="small">Total: <strong id="total">0</strong></div>
+                            <button id="resetBtn" class="btn btn-ghost">Reset Storage</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow:auto">
+                        <table aria-label="Computers table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>IP</th>
+                                    <th>OS</th>
+                                    <th>Location</th>
+                                    <th style="width:130px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <tr class="empty">
+                                    <td colspan="5">No computers added yet — add one with the form on the left.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        Simple Computer Management System — static demo. Want export/print, CSV import, or server storage? Ask and I
+        will add it.
+    </footer>
+
+    <script>
+        // Minimal JS to make the demo usable (keeps everything local in browser storage)
+        const formEls = {
+            name: document.getElementById('name'),
+            ip: document.getElementById('ip'),
+            os: document.getElementById('os'),
+            location: document.getElementById('location')
+        };
+        const addBtn = document.getElementById('addBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const tableBody = document.getElementById('tableBody');
+        const totalEl = document.getElementById('total');
+        const search = document.getElementById('search');
+        const resetBtn = document.getElementById('resetBtn');
+
+        const STORAGE_KEY = 'simple_cms_items_v1';
+
+        function loadItems() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') } catch (e) { return [] }
+        }
+        function saveItems(items) { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); }
+
+        function render(items) {
+            tableBody.innerHTML = '';
+            if (items.length === 0) {
+                tableBody.innerHTML = '<tr class="empty"><td colspan="5">No computers added yet — add one with the form on the left.</td></tr>';
+                totalEl.textContent = '0';
+                return;
+            }
+            items.forEach((it, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+          <td>${escapeHtml(it.name)}</td>
+          <td>${escapeHtml(it.ip)}</td>
+          <td>${osTag(it.os)}</td>
+          <td>${escapeHtml(it.location)}</td>
+          <td><div class="row-actions"><button class="icon-btn" data-action="del" data-i="${idx}">Delete</button></div></td>
+        `;
+                tableBody.appendChild(tr);
+            });
+            totalEl.textContent = items.length;
+        }
+
+        function osTag(os) {
+            const map = { 'Windows': '<span class="tag tag-win">Windows</span>', 'Linux': '<span class="tag tag-linux">Linux</span>', 'macOS': '<span class="tag tag-mac">macOS</span>' }
+            return map[os] || `<span class="tag">${escapeHtml(os)}</span>`
+        }
+
+        // simple input validation
+        function validIp(ip) { if (!ip) return true; return /^\d{1,3}(?:\.\d{1,3}){3}$/.test(ip) }
+
+        addBtn.addEventListener('click', () => {
+            const items = loadItems();
+            const name = formEls.name.value.trim();
+            const ip = formEls.ip.value.trim();
+            const os = formEls.os.value;
+            const location = formEls.location.value.trim();
+            if (!name) { alert('Please enter a device name.'); return; }
+            if (ip && !validIp(ip)) { alert('IP address looks invalid. Use format 192.168.0.1'); return; }
+            items.push({ name, ip, os, location, created: Date.now() });
+            saveItems(items);
+            render(items);
+            // clear small fields
+            formEls.name.value = ''; formEls.ip.value = ''; formEls.location.value = '';
+        });
+
+        clearBtn.addEventListener('click', () => { formEls.name.value = ''; formEls.ip.value = ''; formEls.location.value = ''; formEls.os.value = 'Windows'; });
+
+        tableBody.addEventListener('click', (e) => {
+            const btn = e.target.closest('button'); if (!btn) return;
+            const action = btn.dataset.action; const i = Number(btn.dataset.i);
+            if (action === 'del') {
+                if (!confirm('Delete this computer?')) return;
+                const items = loadItems(); items.splice(i, 1); saveItems(items); render(items);
+            }
+        });
+
+        search.addEventListener('input', () => {
+            const q = search.value.trim().toLowerCase();
+            const items = loadItems();
+            if (!q) { render(items); return; }
+            const filtered = items.filter(it => (it.name || '').toLowerCase().includes(q) || (it.ip || '').toLowerCase().includes(q) || (it.location || '').toLowerCase().includes(q));
+            render(filtered);
+        });
+
+        resetBtn.addEventListener('click', () => { if (confirm('Clear all saved items from this browser?')) { localStorage.removeItem(STORAGE_KEY); render([]); } });
+
+        function escapeHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        // initial render
+        render(loadItems());
+    </script>
+</body>
+
+</html>
